@@ -19,15 +19,13 @@ def main():
     Outlet_Establishment_Year = st.sidebar.slider('OUTLET ESTABLISHMENT YEAR',min_value=1985, max_value=2010)
     Outlet_Size = st.sidebar.radio('OUTLET SIZE',[0,1,2])
     Outlet_Location_Type = st.sidebar.radio('OUTLET LOCATION TYPE',[0,1,2])
-    Outlet_Type = st.sidebar.radio('OUTLET TYPE',[0,1,2,3])
-
 
     if st.button('PREDICT'):
-        X = np.array([Item_Weight, Item_Fat_Content, Item_Visibility, Item_Type, Item_MRP, Outlet_Establishment_Year, Outlet_Size, Outlet_Location_Type, Outlet_Type])
+    X = np.array([Item_Weight, Item_Fat_Content, Item_Visibility, Item_Type, Item_MRP, Outlet_Establishment_Year, Outlet_Size, Outlet_Location_Type, Outlet_Type])
 
         # Load the scaler
         with open('sc.pkl', 'rb') as f:
-            sc = pickle.load(f)
+        sc = pickle.load(f)
 
         # Transform the input data
         X_train_std = sc.transform(X.reshape(1, -1))
