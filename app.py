@@ -37,19 +37,23 @@ def main():
             }
 
             # Load scaler
-            sc = joblib.load('sc.sav')
+            with open('sc.pkl', 'rb') as f:
+                scaler = pickle.load(f)
 
             # Transform input data
-            X_train_std = sc.transform([list(input_data.values())])
+            input_array = np.array(list(input_data.values())).reshape(1, -1)
+            X_train_std = scaler.transform(input_array)
 
             # Load model
-            loaded_model = joblib.load('lr.sav')
+            with open('RF.pkl', 'rb') as f:
+                loaded_model = pickle.load(f)
 
             # Make prediction
             prediction = loaded_model.predict(X_train_std)
 
             # Display prediction
-            st.success(f'Predicted Sales: {float(prediction[0])}')
+            st.success(f'Predicted Sales: {prediction[0]}')
+
 
         except Exception as e:
             st.error(f'An error occurred: {e}')
