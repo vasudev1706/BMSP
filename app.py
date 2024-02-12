@@ -10,54 +10,37 @@ def main():
     # Title
     st.title('BigMart Sales Prediction')
 
-    # Input fields
-    Item_Weight = st.text_input('Enter Item Weight')
-    Item_Fat_Content = st.selectbox('Select Item Fat Content', ['Low Fat', 'Regular'])
-    Item_Visibility = st.text_input('Enter Item Visibility')
-    Item_Type = st.text_input('Enter Item Type')
-    Item_MRP = st.text_input('Enter Item MRP')
-    Outlet_Establishment_Year = st.slider('Select Outlet Establishment Year', min_value=1985, max_value=2010)
-    Outlet_Size = st.selectbox('Select Outlet Size', ['Small', 'Medium', 'High'])
-    Outlet_Location_Type = st.selectbox('Select Outlet Location Type', ['Tier 1', 'Tier 2', 'Tier 3'])
-    Outlet_Type = st.selectbox('Select Outlet Type', ['Supermarket Type1', 'Supermarket Type2', 'Supermarket Type3', 'Grocery Store'])
 
-    if st.button('Predict'):
-        try:
-            # Preprocess input data
-            input_data = {
-                'Item_Weight': float(Item_Weight),
-                'Item_Fat_Content': 1 if Item_Fat_Content == 'Regular' else 0,
-                'Item_Visibility': float(Item_Visibility),
-                'Item_Type': Item_Type,
-                'Item_MRP': float(Item_MRP),
-                'Outlet_Establishment_Year': Outlet_Establishment_Year,
-                'Outlet_Size': ['Small', 'Medium', 'High'].index(Outlet_Size),
-                'Outlet_Location_Type': ['Tier 1', 'Tier 2', 'Tier 3'].index(Outlet_Location_Type),
-                'Outlet_Type': ['Supermarket Type1', 'Supermarket Type2', 'Supermarket Type3', 'Grocery Store'].index(Outlet_Type)
-            }
-
-            # Load scaler
-            with open('sc.pkl', 'rb') as f:
-                scaler = pickle.load(f)
-
-            # Transform input data
-            input_array = np.array(list(input_data.values())).reshape(1, -1)
-            X_train_std = scaler.transform(input_array)
-
-            # Load model
-            with open('RF.pkl', 'rb') as f:
-                loaded_model = pickle.load(f)
-
-            # Make prediction
-            prediction = loaded_model.predict(X_train_std)
-
-            # Display prediction
-            st.success(f'Predicted Sales: {prediction[0]}')
+    Item_Weight = st.text_input('ITEM WEIGHT')
+    Item_Fat_Content = st.sidebar.radio('ITEM FAT CONTENT',[1,0])
+    Item_Visibility = st.text_input('ITEM VISIBILITY')
+    Item_Type = st.text_input('ITEM TYPE')
+    Item_MRP = st.text_input('ITEM MRP')
+    Outlet_Establishment_Year = st.sidebar.slider('OUTLET ESTABLISHMENT YEAR',min_value=1985, max_value=2010)
+    Outlet_Size = st.sidebar.radio('OUTLET SIZE',[0,1,2])
+    Outlet_Location_Type = st.sidebar.radio('OUTLET LOCATION TYPE',[0,1,2])
+    Outlet_Type = st.sidebar.radio('OUTLET TYPE',[0,1,2,3])
 
 
-        except Exception as e:
-            st.error(f'An error occurred: {e}')
+    if st.button('PREDICT'):
+        X = np.array([Item_Weight, Item_Fat_Content, Item_Visibility, Item_Type, Item_MRP, Outlet_Establishment_Year, Outlet_Size, Outlet_Location_Type, Outlet_Type])
 
+        # Load the scaler
+        with open('sc.pkl', 'rb') as f:
+            sc = pickle.load(f)
+
+        # Transform the input data
+        X_train_std = sc.transform(X.reshape(1, -1))
+
+        # Load the model
+        with open('RF.pkl', 'rb') as f:
+            loaded_model = pickle.load(f)
+
+        # Make predictions
+        Y_pred = loaded_model.predict(X_train_std)
+
+        # Display the prediction
+        st.success(f'Prediction: {float(Y_pred[0])}')
     
 
 if __name__ == "__main__":
