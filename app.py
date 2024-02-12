@@ -21,7 +21,7 @@ def main():
     Outlet_Location_Type = st.sidebar.radio('OUTLET LOCATION TYPE',[0,1,2])
 
     if st.button('PREDICT'):
-    X = np.array([Item_Weight, Item_Fat_Content, Item_Visibility, Item_Type, Item_MRP, Outlet_Establishment_Year, Outlet_Size, Outlet_Location_Type, Outlet_Type])
+        X = np.array([Item_Weight, Item_Fat_Content, Item_Visibility, Item_Type, Item_MRP, Outlet_Establishment_Year, Outlet_Size, Outlet_Location_Type, Outlet_Type])
 
         # Load the scaler
         with open('sc.pkl', 'rb') as f:
