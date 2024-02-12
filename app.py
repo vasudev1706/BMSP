@@ -25,7 +25,7 @@ def main():
 
         # Load the scaler
         with open('sc.pkl', 'rb') as f:
-        sc = pickle.load(f)
+            sc = pickle.load(f)
 
         # Transform the input data
         X_train_std = sc.transform(X.reshape(1, -1))
