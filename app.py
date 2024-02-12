@@ -5,6 +5,7 @@ import pickle
 import os
 import streamlit as st
 import sklearn
+import sklearn.preprocessing
 
 def main():
     # Title
