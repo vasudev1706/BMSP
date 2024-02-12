@@ -4,7 +4,7 @@ import numpy as np
 import pickle 
 import os
 import streamlit as st
-import sklearn.preprocessing
+
 
 def main():
     # Title
