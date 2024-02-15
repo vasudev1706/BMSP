@@ -24,7 +24,9 @@ def main():
         X = np.array([Item_Weight, Item_Fat_Content, Item_Visibility, Item_Type, Item_MRP, Outlet_Establishment_Year, Outlet_Size, Outlet_Location_Type, Outlet_Type])
 
         # Load the scaler
-        sc = joblib.load(r'sc.sav')
+        
+        with open('sc.sav', 'rb') as f:
+           sc = pickle.load(f)
 
         # Transform the input data
         X_train_std = sc.transform(X.reshape(1, -1))
